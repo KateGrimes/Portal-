@@ -32,9 +32,7 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg3);color:var(--text);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;}
 h1,h2,h3{font-family:'DM Serif Display',Georgia,serif;font-weight:400;}
-.screen{display:none;min-height:100vh;}.screen.active{display:block;}
-#login-screen{display:none;align-items:center;justify-content:center;min-height:100vh;padding:1.5rem;background:linear-gradient(135deg,var(--bg3) 0%,var(--bg2) 100%);}
-#login-screen.active{display:flex!important;}
+.screen{display:none;min-height:100vh;}.screen.active{display:block;}#login-screen{display:none;align-items:center;justify-content:center;min-height:100vh;padding:1.5rem;background:linear-gradient(135deg,var(--bg3) 0%,var(--bg2) 100%);}#login-screen.active{display:flex!important;}
 .login-card{background:var(--bg);border:1px solid var(--border3);border-radius:20px;padding:2.5rem;width:100%;max-width:420px;box-shadow:var(--shadow-lg);}
 .login-card h3{font-family:'DM Serif Display',Georgia,serif;font-size:26px;margin-bottom:.25rem;color:var(--text);}
 .login-subtitle{font-size:14px;color:var(--text2);margin-bottom:1.75rem;}
@@ -131,16 +129,7 @@ h1,h2,h3{font-family:'DM Serif Display',Georgia,serif;font-weight:400;}
 
 </head>
 <body>
-<div id="debug-bar" style="position:fixed;bottom:0;left:0;right:0;background:#c0392b;color:#fff;font-size:12px;padding:8px 12px;z-index:9999;font-family:monospace;display:none;word-break:break-all;"></div>
-<script>
-window.onerror=function(msg,src,line,col,err){
-  var d=document.getElementById('debug-bar');
-  if(d){d.style.display='block';d.textContent='JS ERROR line '+line+': '+msg;}
-  var ls=document.getElementById('login-screen');
-  if(ls){ls.style.cssText='display:flex!important;align-items:center;justify-content:center;min-height:100vh;padding:1.5rem;background:linear-gradient(135deg,#F7EDE3,#FDF5EE);';}
-  return false;
-};
-</script>
+
 
 <!-- LOADING OVERLAY -->
 <div id="loading-overlay" class="load-overlay" style="display:none;position:fixed;inset:0;background:rgba(14,10,8,0.4);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(4px);">
@@ -151,7 +140,7 @@ window.onerror=function(msg,src,line,col,err){
 </div>
 
 <!-- LOGIN -->
-<div id="login-screen" style="display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1.5rem;background:linear-gradient(135deg,#F7EDE3,#FDF5EE);">
+<div id="login-screen" class="screen active">
   <div class="login-card">
     <div style="text-align:center;margin-bottom:1.75rem;">
       <img src="https://inspiretherapy.ae/wp-content/uploads/2023/11/logo-200x112.png" alt="Inspire Therapy" style="height:60px;width:auto;"/>
@@ -845,21 +834,7 @@ function ini(n){return(n||'').split(' ').map(x=>x[0]).join('').toUpperCase();}
 function showLoad(msg='Loading…'){const o=document.getElementById('loading-overlay');o.style.display='flex';document.getElementById('loading-text').textContent=msg;}
 function hideLoad(){document.getElementById('loading-overlay').style.display='none';}
 function flash(id){const e=document.getElementById(id);if(e){e.style.display='inline';setTimeout(()=>e.style.display='none',2500);}}
-function showScr(id){
-  document.querySelectorAll('.screen').forEach(s=>{
-    s.classList.remove('active');
-    if(s.id==='login-screen') s.style.display='none';
-  });
-  var el=document.getElementById(id);
-  if(id==='login-screen'){
-    el.style.display='flex';
-    el.style.alignItems='center';
-    el.style.justifyContent='center';
-  } else {
-    el.style.display='';
-    el.classList.add('active');
-  }
-}
+function showScr(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
 function showErr(id,msg){const e=document.getElementById(id);if(e){e.textContent=msg;e.style.display='block';setTimeout(()=>e.style.display='none',4000);}}
 
 // ---- TAGS ----
