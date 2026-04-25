@@ -9,7 +9,18 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// Load Supabase with fallback
+(function(){
+  var s=document.createElement('script');
+  s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+  s.onerror=function(){
+    console.error('Supabase failed to load');
+    document.getElementById('login-screen').style.display='flex';
+  };
+  document.head.appendChild(s);
+})();
+</script>
 <style>
 :root{
   --bg:#FFFCF9;--bg2:#FDF5EE;--bg3:#F7EDE3;--text:#1E1410;--text2:#7A5C4A;--text3:#B8997E;
