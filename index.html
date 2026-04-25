@@ -2219,7 +2219,9 @@ async function deleteTrainingVideo(id){
 function closeTVModal(){document.getElementById('tv-modal').classList.remove('active');}
 
 (async()=>{
-  showLoad('Connecting to Inspire Therapy portal…');
+  // Show login immediately — don't wait for Supabase
+  showScr('login-screen');
+  hideLoad();
 
   // Timeout after 12 seconds — if Supabase hasn't responded, show login anyway
   const timeout = setTimeout(()=>{
