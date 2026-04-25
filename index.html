@@ -845,7 +845,21 @@ function ini(n){return(n||'').split(' ').map(x=>x[0]).join('').toUpperCase();}
 function showLoad(msg='Loading…'){const o=document.getElementById('loading-overlay');o.style.display='flex';document.getElementById('loading-text').textContent=msg;}
 function hideLoad(){document.getElementById('loading-overlay').style.display='none';}
 function flash(id){const e=document.getElementById(id);if(e){e.style.display='inline';setTimeout(()=>e.style.display='none',2500);}}
-function showScr(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function showScr(id){
+  document.querySelectorAll('.screen').forEach(s=>{
+    s.classList.remove('active');
+    if(s.id==='login-screen') s.style.display='none';
+  });
+  var el=document.getElementById(id);
+  if(id==='login-screen'){
+    el.style.display='flex';
+    el.style.alignItems='center';
+    el.style.justifyContent='center';
+  } else {
+    el.style.display='';
+    el.classList.add('active');
+  }
+}
 function showErr(id,msg){const e=document.getElementById(id);if(e){e.textContent=msg;e.style.display='block';setTimeout(()=>e.style.display='none',4000);}}
 
 // ---- TAGS ----
@@ -2229,13 +2243,11 @@ async function deleteTrainingVideo(id){
 function closeTVModal(){document.getElementById('tv-modal').classList.remove('active');}
 
 (async()=>{
-  // Show login immediately — don't wait for Supabase
+  // Show login immediately
   showScr('login-screen');
-  hideLoad();
 
   // Timeout after 12 seconds — if Supabase hasn't responded, show login anyway
   const timeout = setTimeout(()=>{
-    hideLoad();
     showScr('login-screen');
     const errEl = document.getElementById('l-err');
     if(errEl){
