@@ -849,9 +849,14 @@ function rTB(bId,iId,tags,fn){const b=document.getElementById(bId);b.querySelect
 async function doLogin(){
   const email=document.getElementById('l-email').value.trim().toLowerCase();
   const pass=document.getElementById('l-pass').value;
-  showLoad('Signing in…');
+  const btn=document.querySelector('.btn-brand');
+  if(btn){btn.textContent='Signing in…';btn.disabled=true;}
   const {data,error}=await SB.auth.signInWithPassword({email,password:pass});
-  if(error){hideLoad();showErr('l-err',error.message);return;}
+  if(error){
+    if(btn){btn.textContent='Sign in →';btn.disabled=false;}
+    showErr('l-err',error.message);
+    return;
+  }
   await loadUserAndRoute();
 }
 async function doLogout(){
@@ -861,12 +866,11 @@ async function doLogout(){
 }
 async function loadUserAndRoute(){
   const {data:{user}}=await SB.auth.getUser();
-  if(!user){hideLoad();showScr('login-screen');return;}
+  if(!user){showScr('login-screen');return;}
   const {data:profile}=await SB.from('profiles').select('*').eq('id',user.id).single();
-  if(!profile){hideLoad();showErr('l-err','Profile not found. Contact your clinic manager.');return;}
+  if(!profile){showErr('l-err','Profile not found. Contact your clinic manager.');return;}
   CU=user;CP=profile;
   await loadGlobalData();
-  hideLoad();
   if(CP.role==='therapist')await showDash();
   else if(CP.role==='parent'||CP.role==='teacher')await showExternal();
   else await showMgr();
